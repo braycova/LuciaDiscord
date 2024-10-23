@@ -56,6 +56,23 @@ class Utility(commands.Cog):
         await interaction.response.send_message(embed=embed)
 
     @app_commands.guild_only
+    @app_commands.command(name="serverinfo", description="Get server information")
+    async def server_info(self, interaction: discord.Interaction):
+        s = interaction.guild
+        embed = (discord.Embed(color=discord.Colour.random())
+                 .set_thumbnail(url=s.icon)
+                 .add_field(name="Owner", value=s.owner.mention)
+                 .add_field(name="Members", value=s.member_count)
+                 .add_field(name="Roles", value=len(s.roles))
+                 .add_field(name="Text Channels", value=len(s.text_channels))
+                 .add_field(name="Voice Channels", value=len(s.voice_channels))
+                 .add_field(name="Emojis", value=len(s.emojis))
+                 .add_field(name="Created On", value=f"<t:{int(s.created_at.timestamp())}>")
+                 .set_author(name=f"{s.name}", icon_url=s.icon)
+                 .set_footer(text=f"Server ID: {s.id}"))
+        await interaction.response.send_message(embed=embed)
+
+    @app_commands.guild_only
     @app_commands.command(name="react", description="React to a message using message ID")
     @app_commands.describe(reaction="Emoji you want to react with (if multiple, separate by space)", message_id="Message ID of target message")
     async def react(self, interaction: discord.Interaction, reaction: str, message_id: str):
