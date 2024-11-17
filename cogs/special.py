@@ -36,7 +36,7 @@ class Special(commands.Cog):
         status_list = {"Online": discord.Status.online, "Idle": discord.Status.idle, "DND": discord.Status.dnd}
         activity_list = {"Playing": discord.Game(name=activity_name), "Listening": discord.Activity(type=discord.ActivityType.listening, name=activity_name),
                          "Watching": discord.Activity(type=discord.ActivityType.watching, name=activity_name),
-                         "Streaming": discord.Streaming(name=activity_name, url="https://d2fizz4npx5v6x.cloudfront.net/audio/11539351.mp3")}    # surprise link :3
+                         "Streaming": discord.Streaming(name=activity_name, url="https://www.youtube.com/watch?v=pKVzd8k7VsA")}    # surprise link :3
 
         await self.client.change_presence(status=status_list[check_status], activity=activity_list[activity_status.value])
         embed = discord.Embed(colour=discord.Color.green()).add_field(name="✔ Status Updated", value="Lucia's activity status has been changed.")
