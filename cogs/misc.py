@@ -21,7 +21,7 @@ class Misc(commands.Cog):
 
     @app_commands.command(name="about", description="Learn what Lucia is")
     async def about(self, interaction: discord.Interaction):
-        desc = ("**Lucia** is a self-hosted discord bot with a variety of functions, yet prioritized in notefoolery. Her commands are viewable through the `/help` menu.\n\n"
+        desc = ("**Lucia** is a self-hosted discord bot with a variety of functions, yet prioritized in notefoolery ;)\nHer commands are viewable through the `/help` menu.\n\n"
                 "As this is an ongoing project, expect frequent *and* infrequent changes, many bugs. Feedback is greatly appreciated. 🍪")
         credits = ("- Developed by <@401134972360065028> <:cat_by_ball:931020898016837672>\n"
                    "- Emotes by <@316225006323499008> <a:LuciaOrbFlash:1251215257968312391>\n"
