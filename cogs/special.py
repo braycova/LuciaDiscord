@@ -42,7 +42,7 @@ class Special(commands.Cog):
         embed = discord.Embed(colour=discord.Color.green()).add_field(name="✔ Status Updated", value="Lucia's activity status has been changed.")
         await interaction.response.send_message(embed=embed)
 
-    @app_commands.command(name="shutdown", description="Shuts down Lucia :3")
+    @app_commands.command(name="shutdown", description="Shut down Lucia :3")
     async def shutdown(self, interaction: discord.Interaction):
         if interaction.user.id not in self.authorized_users:
             nope_responses = ["nope.", "not gonna happen, buddy", "absolutely not.", "ok fine, try again", "`approval = False`"]

@@ -34,7 +34,7 @@ class Utility(commands.Cog):
                  .set_image(url=member.avatar))
         await interaction.response.send_message(embed=embed)
 
-    @app_commands.command(name="userinfo", description="View member information")
+    @app_commands.command(name="user", description="View member information")
     async def user_info(self, interaction: discord.Interaction, member: discord.Member = None):
         member = interaction.guild.get_member(member.id) if member else interaction.guild.get_member(interaction.user.id)
 
@@ -56,7 +56,7 @@ class Utility(commands.Cog):
         await interaction.response.send_message(embed=embed)
 
     @app_commands.guild_only
-    @app_commands.command(name="serverinfo", description="Get server information")
+    @app_commands.command(name="server", description="View server information")
     async def server_info(self, interaction: discord.Interaction):
         s = interaction.guild
         embed = (discord.Embed(color=discord.Colour.random())
@@ -88,7 +88,7 @@ class Utility(commands.Cog):
 
         await interaction.response.send_message(embed=embed, ephemeral=True, delete_after=10)
 
-    @app_commands.command(name="time", description="Fetch the current time from the US, UK, and UTC zones")
+    @app_commands.command(name="time", description="Fetch current time from US, UK, and UTC time zones")
     async def time(self, interaction: discord.Interaction):
         await interaction.response.defer(thinking=True)
         timezones = {"America/Chicago": (":flag_us:", "Central US"), "America/New_York": (":flag_us:", "East US"),

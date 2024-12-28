@@ -19,10 +19,10 @@ class Misc(commands.Cog):
         channel = await user.create_dm()
         await channel.send(content=f"{message}\n-# \\- {interaction.user.name}")
 
-    @app_commands.command(name="about", description="Learn what Lucia is")
+    @app_commands.command(name="about", description="Why does this bot exist in the first place?")
     async def about(self, interaction: discord.Interaction):
-        desc = ("**Lucia** is a self-hosted discord bot with a variety of functions, yet prioritized in notefoolery ;)\nHer commands are viewable through the `/help` menu.\n\n"
-                "As this is an ongoing project, expect frequent *and* infrequent changes, many bugs. Feedback is greatly appreciated. 🍪")
+        desc = ("**Lucia** is a self-hosted discord bot, prioritized in notefoolery.\nPacked with variety of functions, all Her commands are listed through `/help` menu.\n\n"
+                "This is an ongoing project, feedback is greatly appreciated. 🍪")
         credits = ("- Developed by <@401134972360065028> <:cat_by_ball:931020898016837672>\n"
                    "- Emotes by <@316225006323499008> <a:LuciaOrbFlash:1251215257968312391>\n"
                    "- Powered by <@371564926097031169>'s coffee <:coffee:1249421545437270136>\n"
@@ -32,16 +32,16 @@ class Misc(commands.Cog):
         embed.set_footer(text="Created March 25, 2023", icon_url=self.client.user.avatar.url)
         await interaction.response.send_message(embed=embed)
 
-    @app_commands.command(name="featured", description="View featured Discord servers")
+    @app_commands.command(name="featured", description="View Lucia's featured Discord servers")
     async def featured(self, interaction: discord.Interaction):
         await interaction.response.send_message(
             "### Welcome to Lucia Express Train ✦\n"
-            "Select a destination to teleport to :3\n"
+            "Select a destination to teleport to **:3**\n"
             "- <:cat_by_ball:931020898016837672> - [**new day, new pain**](<https://discord.gg/gSErrGDUyR>), residence of Noted and Lucia\n" 
             "- <a:Ballistimite:637405677458948127> - [**Ballistimite Paradise**](<https://discord.gg/fjdnr4M6XA>), the land of ballers\n"
             "- <:AtlasCorp:816132912365436959> - [**Atlas Space Station**](<https://discord.gg/KaDX4F5rBC>)*****, a spacecraft piloted by cock council\n" 
             "- <a:earthorb:719683332547412021> - [**The Earth Clan**](<https://discord.gg/ph6KcAs>)*****, the abandoned land, precedes Atlas Station\n"
-            "-# *These are inactive, kept for history preservation")
+            "-# *These are inactive servers, kept around for the archives")
 
     @app_commands.guild_only()
     @app_commands.command(name="pingball", description="Send a message to your favourite Ballodrite")
