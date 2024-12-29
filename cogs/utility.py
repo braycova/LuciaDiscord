@@ -6,7 +6,7 @@ import time
 import pytz
 
 
-class Utility(commands.Cog):
+class Utility(commands.Cog, description="<:hola:799126033383030794>"):
     def __init__(self, client):
         self.client = client
 

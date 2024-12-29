@@ -12,7 +12,7 @@ def create_choices_list(values_list):
     return choices_list
 
 
-class Special(commands.Cog):
+class Special(commands.Cog, description="<:Lucia:1253852411542372535>"):
     def __init__(self, client):
         self.client = client
         self.authorized_users = [401134972360065028, 316225006323499008, 371564926097031169]    # TODO: Move to DB

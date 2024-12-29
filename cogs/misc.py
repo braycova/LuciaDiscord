@@ -5,7 +5,7 @@ import random
 import asyncio
 
 
-class Misc(commands.Cog):
+class Misc(commands.Cog, description="<a:catdance:1209558708908986421>"):
     def __init__(self, client):
         self.client = client
 
