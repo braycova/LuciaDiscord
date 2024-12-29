@@ -19,9 +19,9 @@ class Misc(commands.Cog, description="<a:catdance:1209558708908986421>"):
         channel = await user.create_dm()
         await channel.send(content=f"{message}\n-# \\- {interaction.user.name}")
 
-    @app_commands.command(name="about", description="Why does this bot exist in the first place?")
+    @app_commands.command(name="about", description="What is Lucia?")
     async def about(self, interaction: discord.Interaction):
-        desc = ("**Lucia** is a self-hosted discord bot, prioritized in notefoolery.\nPacked with variety of functions, all Her commands are listed through `/help` menu.\n\n"
+        desc = ("**Lucia** is a self-hosted discord bot, prioritized in notefoolery.\nPacked with variety of functions, all her commands are listed through `/help` menu.\n\n"
                 "This is an ongoing project, feedback is greatly appreciated. 🍪")
         credits = ("- Developed by <@401134972360065028> <:cat_by_ball:931020898016837672>\n"
                    "- Emotes by <@316225006323499008> <a:LuciaOrbFlash:1251215257968312391>\n"
