@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
+options = []
+commands_list = {}
 
 def help_menu(interaction):
     lucia = interaction.client.get_user(1089292852963590224)
@@ -21,26 +23,23 @@ class Help(commands.Cog):
 
     class HelpSelect(discord.ui.Select):
         def __init__(self, client):
-            commands_list = {}
-            options = []
+            if not commands_list:   # Saves commands list and options first time only
+                for cog in client.cogs.values():
+                    if cog.__cog_name__ == "Help":
+                        continue
 
-            for cog in client.cogs.values():
-                if cog.__cog_name__ == "Help":
-                    continue
+                    options.append(discord.SelectOption(label=cog.__cog_name__, emoji=cog.description))
+                    commands_list[cog.__cog_name__] = ""
+                    for command in cog.walk_app_commands():
+                        commands_list[cog.__cog_name__] += f"- `{command.name}` - {command.description}\n"
 
-                options.append(discord.SelectOption(label=cog.__cog_name__, emoji=cog.description))
-                commands_list[cog.__cog_name__] = ""
-                for command in cog.walk_app_commands():
-                    commands_list[cog.__cog_name__] += f"- `{command.name}` - {command.description}\n"
-
-            self.commands_list = commands_list
             super().__init__(placeholder="Select a category", options=options)
 
         async def callback(self, interaction: discord.Interaction):
             category = self.values[0]
             embed = help_menu(interaction)
-            embed.set_footer(text=f"Requested by {interaction.user.name}")
-            embed.add_field(name=category, value=self.commands_list[category], inline=False)
+            embed.set_footer(text=f"Requested by {interaction.user.name}")  # TODO: Add custom responses
+            embed.add_field(name=category, value=commands_list[category], inline=False)
             await interaction.response.edit_message(embed=embed)
 
     class HelpMenu(discord.ui.View):
