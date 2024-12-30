@@ -31,8 +31,7 @@ class Utility(commands.Cog, description="<:hola:799126033383030794>"):
     @app_commands.command(name="avatar", description="Get a user's avatar")
     async def avatar(self, interaction: discord.Interaction, member: discord.Member = None):
         member = member if member else interaction.user
-        embed = (discord.Embed(title=f"{member.name}'s Avatar", color=member.color)
-                 .set_image(url=member.avatar))
+        embed = (discord.Embed(color=member.color).set_image(url=member.avatar)).set_footer(text=f"📷 {member.name}")
         await interaction.response.send_message(embed=embed)
 
     @app_commands.command(name="user", description="View member information")
@@ -60,7 +59,7 @@ class Utility(commands.Cog, description="<:hola:799126033383030794>"):
     @app_commands.command(name="server", description="View server information")
     async def server_info(self, interaction: discord.Interaction):
         s = interaction.guild
-        embed = (discord.Embed(color=discord.Colour.random())
+        embed = (discord.Embed()
                  .set_thumbnail(url=s.icon)
                  .add_field(name="Owner", value=s.owner.mention)
                  .add_field(name="Members", value=s.member_count)
@@ -98,10 +97,10 @@ class Utility(commands.Cog, description="<:hola:799126033383030794>"):
         for zone, label in timezones.items():
             tzs_formatted += f"{label[0]} **{label[1]}** - {datetime.now(pytz.timezone(zone)).strftime('%I:%M %p').lstrip('0')}\n"
 
-        embed = (discord.Embed(title="🕑 - time go wee")
+        embed = (discord.Embed()
                  .add_field(name="Your Time", value=f"🗺️ **Local** - <t:{int(time.time())}:t>", inline=False)
                  .add_field(name="Other Time Zones", value=tzs_formatted, inline=False)
-                 .set_footer(text=get_random_response(response_type="time")[0]))
+                 .set_footer(text=f"🕑 {get_random_response(response_type="time")[0]}"))
         await interaction.followup.send(embed=embed)
 
 
