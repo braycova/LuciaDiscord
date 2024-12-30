@@ -7,7 +7,7 @@ commands_list = {}
 
 def help_menu(interaction):
     lucia = interaction.client.get_user(1089292852963590224)
-    embed = discord.Embed(colour=discord.Colour(0x3e038c))
+    embed = discord.Embed(colour=discord.Colour(0x6c519c))
     embed.set_author(name="Lucia", icon_url=lucia.avatar)
     return embed
 

@@ -4,6 +4,7 @@ from discord import app_commands
 from datetime import datetime
 import time
 import pytz
+from data.database import get_random_response
 
 
 class Utility(commands.Cog, description="<:hola:799126033383030794>"):
@@ -100,7 +101,7 @@ class Utility(commands.Cog, description="<:hola:799126033383030794>"):
         embed = (discord.Embed(title="🕑 - time go wee")
                  .add_field(name="Your Time", value=f"🗺️ **Local** - <t:{int(time.time())}:t>", inline=False)
                  .add_field(name="Other Time Zones", value=tzs_formatted, inline=False)
-                 .set_footer(text="cloc"))  # TODO: Replace with random response key
+                 .set_footer(text=get_random_response(response_type="time")[0]))
         await interaction.followup.send(embed=embed)
 
 
