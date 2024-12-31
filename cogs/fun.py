@@ -188,7 +188,7 @@ class Fun(commands.Cog, description="<a:diceRolling:1205962287710478346>"):
         embed.add_field(name="Awards 🏆", value=movie_data['Awards'], inline=True)
         embed.add_field(name="Box Office 💵", value=movie_data['BoxOffice'], inline=True)
         embed.set_thumbnail(url=movie_data['Poster'])
-        embed.set_footer(text=f"Requested by {interaction.user.name} **•** Powered by The Open Movie Database", icon_url=interaction.user.avatar)
+        embed.set_footer(text=f"Requested by {interaction.user.name} • Powered by The Open Movie Database", icon_url=interaction.user.avatar)
         await interaction.response.send_message(embed=embed)
 
     @app_commands.command(name="roll", description="Roll a dice")

@@ -29,7 +29,7 @@ class Misc(commands.Cog, description="<a:catdance:1209558708908986421>"):
                    "- Avatar from [Kotoro's](https://www.instagram.com/nikoandkota.toro/) Instagram <:Lucia:1253852411542372535>")
         embed = discord.Embed(title="About Lucia", description=desc, colour=discord.Colour(0xb39eb5))
         embed.add_field(name="Credits", value=credits)
-        embed.set_footer(text="Created March 25, 2023", icon_url=self.client.user.avatar.url)
+        embed.set_footer(text="Created March 25, 2023", icon_url=self.client.get_user(1089292852963590224).avatar)
         await interaction.response.send_message(embed=embed)
 
     @app_commands.command(name="featured", description="View Lucia's featured Discord servers")
