@@ -2,7 +2,8 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import data.database as db
-from data.database import update_balance_value, get_economy_profile, get_random_response
+from data.database import update_balance_value, get_economy_profile, get_random_response, get_all_shop_items, \
+    update_inventory_value
 import random
 import time
 
@@ -245,6 +246,61 @@ class Economy(commands.Cog, description="<a:LuciaOrb:1251215260031914048>"):
         embed.set_author(name=interaction.user.name, icon_url=interaction.user.avatar)
         await interaction.response.send_message(embed=embed)
 
+    class ShopPurchase(discord.ui.View):
+        def __init__(self):
+            super().__init__(timeout=120)
+
+        @discord.ui.button(label="Buy", style=discord.ButtonStyle.green, emoji="<a:LuciaOrb:1251215260031914048>")
+        async def buy_item(self, interaction: discord.Interaction, button: discord.ui.Button):
+            embed = discord.Embed(description="Select an item below to purchase", color=discord.Color.purple())
+            await interaction.response.send_message(embed=embed, view=Economy.ShopView(), ephemeral=True)
+
+    class ShopMenu(discord.ui.Select):
+        def __init__(self):
+            options = [discord.SelectOption(label=item['name'], description=f"✦ {item['price']:,}", emoji=item['emoji']) for item in get_all_shop_items()]
+            super().__init__(placeholder="Select an item", options=options)
+
+        async def callback(self, interaction: discord.Interaction):
+            for item in get_all_shop_items():
+                if self.values[0] == item['name']:
+                    bal = get_economy_profile(interaction.user.id)['balance']
+
+                    if bal['wallet'] < item['price']:
+                        await send_exit_message(f"You don't have enough to purchase a **{item['name']}**.", interaction)
+                        return
+
+                    update_balance_value(interaction.user.id, "wallet", -item['price'])
+                    update_inventory_value(interaction.user.id, item['price'], 1)
+                    purchase_message = f"Purchased **{item['name']}** for <a:LuciaOrb:1251215260031914048> **{item['price']:,}**."
+
+                    if item['name'] == "Bank Note":
+                        note_worth = 4500 if random.random() < .05 else 3000
+                        update_balance_value(interaction.user.id, "storage", note_worth)
+                        purchase_message += f"\nYour bank storage has been expanded by **+{note_worth:,}**"
+
+                    embed = discord.Embed(description=purchase_message, color=discord.Color.green()).set_author(name=interaction.user.name, icon_url=interaction.user.avatar)
+                    await interaction.response.send_message(embed=embed)
+
+    class ShopView(discord.ui.View):
+        def __init__(self):
+            super().__init__()
+            self.add_item(Economy.ShopMenu())
+
+    @app_commands.guild_only()
+    @app_commands.command(name="shop", description="Buy stuff with Lucia orbs")
+    async def shop(self, interaction: discord.Interaction):
+        lucia = self.client.get_user(1089292852963590224)
+
+        embed = (discord.Embed(color=discord.Color.purple())
+                 .set_author(name="Lucia Shop", icon_url=lucia.avatar)
+                 .set_footer(text=f"Requested by {interaction.user.name}", icon_url=interaction.user.avatar)
+                 .set_thumbnail(url="https://cdn.discordapp.com/emojis/1251215260031914048.gif"))
+
+        for item in get_all_shop_items():
+            embed.add_field(name=f"{item['emoji']} {item['name']} - {self.currency_icon} {item['price']:,}", value=item['description'], inline=False)
+
+        await interaction.response.send_message(embed=embed, view=self.ShopPurchase())
+
     @app_commands.guild_only()
     @app_commands.command(name="leaderboard", description="View the economic leaderboard")
     async def leaderboard(self, interaction: discord.Interaction):
@@ -266,7 +322,6 @@ class Economy(commands.Cog, description="<a:LuciaOrb:1251215260031914048>"):
         embed.set_footer(text=user_rank, icon_url=interaction.user.avatar)
         await interaction.response.send_message(embed=embed)
 
-
     async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             remaining_time = int(time.time()) + round(error.retry_after)
@@ -277,8 +332,6 @@ class Economy(commands.Cog, description="<a:LuciaOrb:1251215260031914048>"):
                      .set_footer(text="⚠️ If this persists, notify Noted"))
             await interaction.response.send_message(embed=embed, ephemeral=True, delete_after=10)
             print(f"(X) Error while using Economy command by {interaction.user.name} - {error}")
-
-    # TODO: Add /shop commands + modals
 
 
 async def setup(client):
