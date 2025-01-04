@@ -28,19 +28,6 @@ class Economy(commands.Cog, description="<a:LuciaOrb:1251215260031914048>"):
         await self.client.tree.sync()
         print(f"{__name__} is ready.")
 
-    @commands.Cog.listener()
-    async def on_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
-        if isinstance(error, app_commands.CommandOnCooldown):
-            remaining_time = int(time.time()) + round(error.retry_after)
-            embed = discord.Embed(description=f"{self.coffee} **Slow down**. You can try again <t:{remaining_time}:R>.", color=discord.Color.dark_gray())
-            await interaction.response.send_message(embed=embed, ephemeral=True, delete_after=10)
-        else:
-            embed = (discord.Embed(description="**whoops**. Lucia tripped over a wire. Please try again later.", color=discord.Color.dark_red())
-                     .set_footer(text="⚠️ If this persists, notify Noted"))
-            await interaction.response.send_message(embed=embed, ephemeral=True, delete_after=10)
-            print(f"(X) Error while using Economy command by {interaction.user.name} - {error}")    # todo: fix this
-
-
     @app_commands.guild_only()
     @app_commands.command(name="balance", description="View your balance")
     @app_commands.describe(member="View someone else's balance")
@@ -100,6 +87,7 @@ class Economy(commands.Cog, description="<a:LuciaOrb:1251215260031914048>"):
     @app_commands.checks.cooldown(1, 600)
     @app_commands.command(name="work", description="Earn orbs by working")
     async def work(self, interaction: discord.Interaction):
+        await interaction.response.defer(thinking=True)
         user = get_economy_profile(interaction.user.id)     # Used to initialize member if no account exists
 
         work_amount = random.randint(20, 375)
@@ -111,12 +99,13 @@ class Economy(commands.Cog, description="<a:LuciaOrb:1251215260031914048>"):
         embed.set_footer(text=f"Reply #{index+1}")
 
         update_balance_value(interaction.user.id, "wallet", work_amount)
-        await interaction.response.send_message(embed=embed)
+        await interaction.followup.send(embed=embed)
 
     @app_commands.guild_only()
     @app_commands.checks.cooldown(1, 600)
     @app_commands.command(name="crime", description="Steal orbs to earn orbs")
     async def crime(self, interaction: discord.Interaction):
+        await interaction.response.defer(thinking=True)
         user = get_economy_profile(interaction.user.id)
 
         success = True if random.random() < .45 else False
@@ -128,7 +117,7 @@ class Economy(commands.Cog, description="<a:LuciaOrb:1251215260031914048>"):
             resp = response.format(amt=f"{self.currency_icon} **{crime_amount}**")
             embed = discord.Embed(description=resp, color=discord.Color.dark_green())
         else:
-            response, index = get_random_response("fail-crime")
+            response, index = get_random_response("crime-fail")
             crime_amount = random.randint(250, 850)
             update_balance_value(interaction.user.id, "wallet", -crime_amount)
             update_balance_value("bank", "register", round(crime_amount * .1))
@@ -147,18 +136,18 @@ class Economy(commands.Cog, description="<a:LuciaOrb:1251215260031914048>"):
     @app_commands.command(name="rob", description="Rob an unsuspecting member")
     async def rob(self, interaction: discord.Interaction, member: discord.Member):
         if member.bot:
-            await send_exit_message("Try robbing a bot and they'll smite you. I'm not getting in the crossfire.", interaction)
+            await send_exit_message("They smited you for trying. You're going to need to recover for a bit.", interaction)
             return
 
         if member.id == interaction.user.id:
-            await send_exit_message("You can't rob yourself.", interaction)
+            await send_exit_message("**You can't rob yourself**. Timing you out just for that >:(", interaction)
             return
 
         robber = get_economy_profile(interaction.user.id)
         victim = get_economy_profile(member.id)['balance']
 
         if victim['wallet'] < 1:
-            await send_exit_message(f"{member.mention} has no orbs in their wallet to rob.", interaction)
+            await send_exit_message(f"{member.mention} has no orbs in their wallet to rob. You risked it for nothing.", interaction)
             return
 
         success = True if random.random() < .6 else False
@@ -276,6 +265,18 @@ class Economy(commands.Cog, description="<a:LuciaOrb:1251215260031914048>"):
         embed.set_author(name="Leaderboard", icon_url=interaction.guild.icon)
         embed.set_footer(text=user_rank, icon_url=interaction.user.avatar)
         await interaction.response.send_message(embed=embed)
+
+
+    async def cog_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            remaining_time = int(time.time()) + round(error.retry_after)
+            embed = discord.Embed(description=f"{self.coffee} **Slow down**. You can try again <t:{remaining_time}:R>.", color=discord.Color.dark_gray())
+            await interaction.response.send_message(embed=embed, ephemeral=True, delete_after=10)
+        else:
+            embed = (discord.Embed(description="**whoops**. Lucia tripped over a wire. Please try again later.", color=discord.Color.dark_red())
+                     .set_footer(text="⚠️ If this persists, notify Noted"))
+            await interaction.response.send_message(embed=embed, ephemeral=True, delete_after=10)
+            print(f"(X) Error while using Economy command by {interaction.user.name} - {error}")
 
     # TODO: Add /shop commands + modals
 
