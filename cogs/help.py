@@ -38,7 +38,7 @@ class Help(commands.Cog):
         async def callback(self, interaction: discord.Interaction):
             category = self.values[0]
             embed = help_menu(interaction)
-            embed.set_footer(text=f"💬 Working on economy/music features next")  # TODO: Add custom responses
+            embed.set_footer(text=f"💬 I may have lost the random footer response file")  # TODO: Add custom responses
             embed.add_field(name=category, value=commands_list[category], inline=False)
             await interaction.response.edit_message(embed=embed)
 
