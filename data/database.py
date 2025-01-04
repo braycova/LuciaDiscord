@@ -44,3 +44,6 @@ def get_all_shop_items():
 
 def update_balance_value(user_id, field_name, value):
     economy.update_one({"userId": user_id}, {"$inc": {f"balance.{field_name}": value}})
+
+def update_inventory_value(user_id, item_name, value):
+    economy.update_one({"userId": user_id}, {"$inc": {f"inventory.{item_name}": value}})
