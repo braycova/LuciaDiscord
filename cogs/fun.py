@@ -1,3 +1,4 @@
+import json
 
 import discord
 from discord.ext import commands
@@ -215,6 +216,14 @@ class Fun(commands.Cog, description="<a:diceRolling:1205962287710478346>"):
             await asyncio.sleep(0.6)
 
         await interaction.edit_original_response(content=f"## <:Lucia:1253852411542372535> {('{:,}'.format(accumulator))}\n{roll_numbers[:-2]}")
+
+    @app_commands.command(name="topic", description="Start a conversation with a random topic")
+    async def topic(self, interaction: discord.Interaction):
+        with open("data/topics.json", "r") as f:
+            topics = json.load(f)
+
+        index = random.randint(0, len(topics) - 1)
+        await interaction.response.send_message(f"> {topics[index]}\n-# #{index+1}")
 
     @app_commands.command(name="weather", description="Check the weather of any city")
     @app_commands.describe(city="Enter a city name")
