@@ -23,7 +23,7 @@ async def handle_api_exceptions(interaction, api_name, command_name, exception):
     await interaction.response.send_message(embed=embed, ephemeral=True, delete_after=8)
 
 
-class Fun(commands.Cog, description="<a:diceRolling:1205962287710478346>"):
+class Fun(commands.Cog, description="<a:chicken:1252681208916217949>"):
     def __init__(self, client):
         self.client = client
 
