@@ -1,1 +1,4 @@
 /.env
+/.idea
+/.venv
+/cogs/__pycache__/
