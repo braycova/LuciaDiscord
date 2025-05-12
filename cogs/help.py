@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+from data.database import get_random_response, get_config_info
 
 options = []
 commands_list = {}
@@ -38,7 +39,7 @@ class Help(commands.Cog):
         async def callback(self, interaction: discord.Interaction):
             category = self.values[0]
             embed = help_menu(interaction)
-            embed.set_footer(text=f"💬 I may have lost the random footer response file")  # TODO: Add custom responses
+            embed.set_footer(text=f"💬 {get_random_response("help")[0]}")
             embed.add_field(name=category, value=commands_list[category], inline=False)
             await interaction.response.edit_message(embed=embed)
 
@@ -52,9 +53,9 @@ class Help(commands.Cog):
         embed = help_menu(interaction)
         noted = interaction.client.get_user(401134972360065028)
         embed.title = "Select an category below ✦"
-        embed.description = "There is no changelog, there is only cat <:Lucia:1253852411542372535>"
+        embed.description = get_config_info("updates")
         embed.set_footer(text=f"Developed by Noted :3", icon_url=noted.avatar)
-        await interaction.response.send_message(embed=embed, view=self.HelpMenu(client=interaction.client))
+        await interaction.response.send_message(embed=embed, ephemeral=True, view=self.HelpMenu(client=interaction.client))
 
 
 async def setup(client):

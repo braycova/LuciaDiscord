@@ -1,8 +1,8 @@
-import random
-
 import discord
 from discord.ext import commands
 from discord import app_commands
+import random
+from data.database import get_config_info
 
 
 def create_choices_list(values_list):
@@ -15,7 +15,7 @@ def create_choices_list(values_list):
 class Special(commands.Cog, description="<:Lucia:1253852411542372535>"):
     def __init__(self, client):
         self.client = client
-        self.authorized_users = [401134972360065028, 316225006323499008, 371564926097031169]    # TODO: Move to DB
+        self.authorized_users = get_config_info("auth_users")
 
     @commands.Cog.listener()
     async def on_ready(self):
