@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 import os
 from dotenv import load_dotenv
+from data.database import get_config_info
 
 client = commands.Bot(command_prefix=".", help_command=None, intents=discord.Intents.all())
 
@@ -17,6 +18,7 @@ async def load():
 async def on_ready():
     await load()
     await client.tree.sync()
+    await client.change_presence(status=eval(get_config_info("presence")["status"]), activity=discord.Game(name=get_config_info("presence")["activity"]))
     print(f"\n{client.user.name} has connected to Discord.")
 
 
