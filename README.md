@@ -1,14 +1,13 @@
 # Lucia
 **a discord bot disguised as a fancy cat**
 
-Lucia is a self-hosted discord bot, prioritized in notefoolery.
-You can find her commands listed through cog files or through `/help` interactive menu.
+Lucia is a self-hosted discord bot, prioritized in foolery with some moderately useful functions. <br>
+Her commands can be found listed through `/cog` files or through `/help` interactive menu.
 
-This is an ongoing project, so feedback is greatly appreciated. 🍪
+As this is an ongoing project, feedback is greatly appreciated. 🍪
 
-
-### Credits
+## Credits
 - Developed by [**justnoted**](https://github.com/justnoted)
-- Emotes by **axondrite** on Discord
-- Powered by **acuppajoe**'s coffee on Discord
-- Avatar from [**Kotoro's**](https://www.instagram.com/nikoandkota.toro/) Instagram
+- Avatar from [**Kotoro's**](https://www.instagram.com/nikoandkota.toro/) Instagram 
+
+Special thanks to **@axondrite** and **@acuppajoe** for their contributions through its continued development.
