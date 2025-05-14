@@ -52,3 +52,7 @@ def update_balance_value(user_id, field_name, value):
 
 def update_inventory_value(user_id, item_name, value):
     economy.update_one({"userId": user_id}, {"$inc": {f"inventory.{item_name}": value}})
+
+
+def create_event(event):
+    calendar.insert_one(event)
